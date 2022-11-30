@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { AiOutlineMail, AiOutlinePhone } from 'react-icons/ai';
+import { BsWhatsapp } from 'react-icons/bs';
 import { Contact, IContact } from '../entities/Contact';
 
 function ContactCard({ id, name, email, phone, whatsapp }: IContact) {
@@ -8,10 +10,24 @@ function ContactCard({ id, name, email, phone, whatsapp }: IContact) {
       {/* todo: edit and delete buttons */}
 
       <div className="info">
-        {/* todo: use contact icons */}
-        <p>{email}</p>
-        <p>{phone}</p>
-        <p>{whatsapp}</p>
+        {email && (
+          <div className="contact">
+            <AiOutlineMail />
+            <p>{email}</p>
+          </div>
+        )}
+        {phone && (
+          <div className="contact">
+            <AiOutlinePhone />
+            <p>{phone}</p>
+          </div>
+        )}
+        {whatsapp && (
+          <div className="contact">
+            <BsWhatsapp />
+            <p>{whatsapp}</p>
+          </div>
+        )}
       </div>
     </div>
   );
