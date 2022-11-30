@@ -1,9 +1,9 @@
 export interface IContact {
   id: string;
   name: string;
-  phone?: string;
   email?: string;
-  whatsapp?: string;
+  phone?: number;
+  whatsapp?: number;
 }
 
 export class Contact implements IContact {
@@ -17,7 +17,7 @@ export class Contact implements IContact {
 
   id: string;
   name: string;
-  phone?: string | undefined;
   email?: string | undefined;
-  whatsapp?: string | undefined;
+  phone?: number | undefined;
+  whatsapp?: number | undefined;
 }

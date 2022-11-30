@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Contact } from './entities/Contact';
 import { listContacts } from './services/apiService';
 import './App.scss';
+import ContactCard from './components/ContactCard';
 
 function App() {
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -10,6 +11,7 @@ function App() {
     async function getContacts(): Promise<void> {
       try {
         const contactList: Contact[] = await listContacts();
+        console.log(contactList);
         setContacts(contactList);
       } catch (error) {
         // todo: handle error
@@ -23,12 +25,13 @@ function App() {
     <div className="App">
       {contacts.map(contact => (
         <div>
-          <h4>{contact.name}</h4>
-          <ul>
-            <li>{contact.phone}</li>
-            <li>{contact.email}</li>
-            <li>{contact.whatsapp}</li>
-          </ul>
+          <ContactCard
+            id={contact.id}
+            name={contact.name}
+            email={contact.email}
+            phone={contact.phone}
+            whatsapp={contact.whatsapp}
+          />
         </div>
       ))}
     </div>
