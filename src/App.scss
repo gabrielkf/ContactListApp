@@ -9,25 +9,31 @@ $rose: #ba7e7e;
 $dark: #4e4e4e;
 
 .App {
-  text-align: center;
+  text-align: left;
 }
 
 /* center container in the middle */
 html {
-  display: grid;
   min-height: 100%;
+  min-width: 100%;
 }
 
 body {
-  display: grid;
   background: $light;
   font-family: $font, sans-serif;
-  text-transform: uppercase;
+  padding: 1em;
+}
+
+.container {
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 .card {
   position: relative;
-  margin: auto;
+  margin: 1em;
   padding: 1em;
   overflow: hidden;
   width: 14em;
@@ -38,7 +44,8 @@ body {
 }
 
 p {
-  font-size: 0.6em;
+  font-size: 0.8em;
+  line-height: 1em;
   color: $rose;
   letter-spacing: 1px;
 }
@@ -61,6 +68,5 @@ h2 {
   letter-spacing: 0;
   margin-bottom: 17px;
   color: $dark;
-  font-size: 1.2em;
   text-align: justify;
 }

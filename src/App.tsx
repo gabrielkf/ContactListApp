@@ -23,8 +23,8 @@ function App() {
 
   return (
     <div className="App">
-      {contacts.map(contact => (
-        <div>
+      <div className="container">
+        {contacts.map(contact => (
           <ContactCard
             id={contact.id}
             name={contact.name}
@@ -32,8 +32,8 @@ function App() {
             phone={contact.phone}
             whatsapp={contact.whatsapp}
           />
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
