@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { AiOutlineMail, AiOutlinePhone, AiOutlineDelete } from 'react-icons/ai';
+import {
+  AiOutlineMail,
+  AiOutlinePhone,
+  AiOutlineDelete,
+  AiOutlineEdit,
+} from 'react-icons/ai';
 import { BsWhatsapp } from 'react-icons/bs';
 import { IContact, Contact } from '../entities/Contact';
 import { removeContact } from '../services/apiService';
@@ -28,9 +33,10 @@ function ContactCard({
   return (
     <div className="card">
       <div className="title">
-        <h1>{name}</h1>
+        <input className="name" type="text" value={name}></input>
 
         <div className="title-icons">
+          <AiOutlineEdit />
           <AiOutlineDelete onClick={async () => remove(id)} />
         </div>
       </div>
@@ -39,21 +45,25 @@ function ContactCard({
         {email && (
           <div className="contact">
             <AiOutlineMail />
-            <p>{email}</p>
+            <input className="contact-field" type="text" value={email}></input>
           </div>
         )}
 
         {phone && (
           <div className="contact">
             <AiOutlinePhone />
-            <p>{phone}</p>
+            <input className="contact-field" type="text" value={phone}></input>
           </div>
         )}
 
         {whatsapp && (
           <div className="contact">
             <BsWhatsapp />
-            <p>{whatsapp}</p>
+            <input
+              className="contact-field"
+              type="text"
+              value={whatsapp}
+            ></input>
           </div>
         )}
       </div>

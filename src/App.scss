@@ -36,8 +36,8 @@ body {
   margin: 1em;
   padding: 1em;
   overflow: hidden;
-  width: 14em;
-  height: 6em;
+  width: 15em;
+  height: 7em;
   background: $white;
   box-shadow: 5px 5px 15px rgba($rose, 0.5);
   border-radius: 10px;
@@ -49,9 +49,23 @@ body {
   justify-content: space-between;
 }
 
+.name {
+  width: auto;
+  max-width: 80%;
+  font-size: 1.2em;
+  color: $dark;
+  text-decoration: underline;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
 .title-icons {
+  min-width: 18%;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 
   &:hover {
     cursor: pointer;
@@ -77,9 +91,8 @@ body {
   align-items: center;
 }
 
-p {
+.contact-field {
   font-size: 0.9em;
-  line-height: 1em;
   color: $rose;
   letter-spacing: 1px;
   padding: 0 auto;
@@ -87,15 +100,14 @@ p {
   margin-left: 0.5em;
 }
 
-h1,
-h3,
-h4 {
-  font-size: 1.2em;
-  color: $dark;
-  margin-top: -5px;
-}
+input {
+  background: transparent;
+  border: none;
+  outline-style: none;
 
-h2 {
-  color: $tan;
-  margin-top: -5px;
+  &:focus {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: $dark;
+  }
 }
