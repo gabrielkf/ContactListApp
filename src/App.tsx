@@ -44,7 +44,7 @@ function App() {
   return (
     <div className="App">
       <div className="header">
-        <AiOutlinePlusCircle size={40} onClick={() => setCreate(true)} />
+        <AiOutlinePlusCircle size={40} onClick={() => setCreate(!create)} />
         <p>Add contact</p>
       </div>
 

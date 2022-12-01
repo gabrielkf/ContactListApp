@@ -55,6 +55,7 @@ function CreateContact({ setCreateFalse, updateCards }: ICreateProps) {
           type="text"
           value={name}
           onChange={e => setName(e.target.value)}
+          placeholder="Name"
         ></input>
 
         <div className="title-icons">
@@ -79,6 +80,7 @@ function CreateContact({ setCreateFalse, updateCards }: ICreateProps) {
             type="text"
             value={email}
             onChange={e => setEmail(e.target.value)}
+            placeholder="Email"
           ></input>
         </div>
 
@@ -89,6 +91,7 @@ function CreateContact({ setCreateFalse, updateCards }: ICreateProps) {
             type="number"
             value={phone}
             onChange={e => setPhone(+e.target.value)}
+            placeholder="Phone number"
           ></input>
         </div>
 
@@ -99,6 +102,7 @@ function CreateContact({ setCreateFalse, updateCards }: ICreateProps) {
             type="number"
             value={whatsapp}
             onChange={e => setWhatsapp(+e.target.value)}
+            placeholder="Whatsapp"
           ></input>
         </div>
       </div>
