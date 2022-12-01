@@ -21,3 +21,17 @@ export class Contact implements IContact {
   phone?: number | undefined;
   whatsapp?: number | undefined;
 }
+
+export class ContactData implements Omit<IContact, 'id'> {
+  constructor(contactProps: Omit<IContact, 'id'>) {
+    this.name = contactProps.name;
+    this.phone = contactProps.phone;
+    this.email = contactProps.email;
+    this.whatsapp = contactProps.whatsapp;
+  }
+
+  public name: string;
+  public email?: string | undefined;
+  public phone?: number | undefined;
+  public whatsapp?: number | undefined;
+}

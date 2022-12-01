@@ -8,11 +8,12 @@ import {
   AiFillCloseCircle,
 } from 'react-icons/ai';
 import { BsWhatsapp } from 'react-icons/bs';
-import { IContact, Contact } from '../entities/Contact';
-import { removeContact } from '../services/apiService';
+import { IContact, Contact, ContactData } from '../entities/Contact';
+import { removeContact, updateContact } from '../services/apiService';
 
 interface ICardProps extends IContact {
   removeCard(id: string): void;
+  updateCards(contact: IContact): void;
 }
 
 function ContactCard({
@@ -22,6 +23,7 @@ function ContactCard({
   phone,
   whatsapp,
   removeCard,
+  updateCards,
 }: ICardProps) {
   const [cardName, setCardName] = useState<string>(name);
   const [cardEmail, setCardEmail] = useState<string>(email || '');
@@ -37,6 +39,7 @@ function ContactCard({
 
   async function confirmAction() {
     if (confirmDelete) return remove();
+    else return update();
   }
 
   function cancelAction() {
@@ -62,10 +65,19 @@ function ContactCard({
 
   async function update() {
     try {
-      // todo: call update method
+      const contactData = new ContactData({
+        name: cardName,
+        email: cardEmail,
+        phone: cardPhone,
+        whatsapp: cardWhats,
+      });
+
+      await updateContact(id, contactData);
     } catch {
       // todo: show error toast
     }
+
+    setEdit(false);
   }
 
   return (
@@ -76,7 +88,7 @@ function ContactCard({
           type="text"
           value={cardName}
           readOnly={!edit}
-          onChange={e => setCardName(e.target.value)}
+          onChange={e => setCardName(e.target.value.trim())}
         ></input>
 
         <div className="title-icons">
@@ -109,7 +121,7 @@ function ContactCard({
               type="text"
               value={cardEmail}
               readOnly={!edit}
-              onChange={e => setCardEmail(e.target.value)}
+              onChange={e => setCardEmail(e.target.value.trim())}
             ></input>
           </div>
         )}
