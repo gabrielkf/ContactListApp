@@ -36,12 +36,7 @@ export async function removeContact(id: string): Promise<void> {
       throw new HttpException(getReasonPhrase(status));
     }
   } catch (error) {
-    if (axios.isAxiosError(error) || error instanceof HttpException) {
-      const { message, status } = error;
-      throw new HttpException(message, status);
-    } else {
-      throw new HttpException();
-    }
+    handleError(error);
   }
 }
 
@@ -56,11 +51,34 @@ export async function updateContact(
       throw new HttpException(getReasonPhrase(status));
     }
   } catch (error) {
-    if (axios.isAxiosError(error) || error instanceof HttpException) {
-      const { message, status } = error;
-      throw new HttpException(message, status);
-    } else {
-      throw new HttpException();
+    handleError(error);
+  }
+}
+
+export async function createContact(
+  contactData: ContactData
+): Promise<Contact | undefined> {
+  try {
+    const { data, status } = await apiClient.post('', contactData);
+
+    if (status !== StatusCodes.CREATED) {
+      if (data.message && data.message[0]) {
+        throw new HttpException(data.message[0]);
+      }
+      throw new Error();
     }
+
+    return data as Contact;
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+function handleError(error: any) {
+  if (axios.isAxiosError(error) || error instanceof HttpException) {
+    const { message, status } = error;
+    throw new HttpException(message, status);
+  } else {
+    throw new HttpException();
   }
 }

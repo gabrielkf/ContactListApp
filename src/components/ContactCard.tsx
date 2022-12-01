@@ -66,8 +66,8 @@ function ContactCard({
   async function update() {
     try {
       const contactData = new ContactData({
-        name: cardName,
-        email: cardEmail,
+        name: cardName.trim(),
+        email: cardEmail.trim(),
         phone: cardPhone,
         whatsapp: cardWhats,
       });
@@ -93,7 +93,7 @@ function ContactCard({
           type="text"
           value={cardName}
           readOnly={!edit}
-          onChange={e => setCardName(e.target.value.trim())}
+          onChange={e => setCardName(e.target.value)}
         ></input>
 
         <div className="title-icons">
@@ -126,7 +126,7 @@ function ContactCard({
               type="text"
               value={cardEmail}
               readOnly={!edit}
-              onChange={e => setCardEmail(e.target.value.trim())}
+              onChange={e => setCardEmail(e.target.value)}
             ></input>
           </div>
         )}

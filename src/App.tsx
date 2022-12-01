@@ -37,7 +37,7 @@ function App() {
     return a.name < b.name ? -1 : 1;
   }
 
-  function cancelCreate(): void {
+  function setCreateFalse(): void {
     setCreate(false);
   }
 
@@ -51,7 +51,7 @@ function App() {
       {create && (
         <div className="container">
           <CreateContact
-            cancelCreate={cancelCreate}
+            setCreateFalse={setCreateFalse}
             updateCards={updateCards}
           />
         </div>

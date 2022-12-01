@@ -7,27 +7,42 @@ import {
 } from 'react-icons/ai';
 import { BsWhatsapp } from 'react-icons/bs';
 import { ContactData, IContact, validContactData } from '../entities/Contact';
+import { HttpException } from '../entities/HttpException';
+import { createContact } from '../services/apiService';
 
 interface ICreateProps {
-  cancelCreate(): void;
+  setCreateFalse(): void;
   updateCards(contact: IContact): void;
 }
 
-function CreateContact({ cancelCreate, updateCards }: ICreateProps) {
+function CreateContact({ setCreateFalse, updateCards }: ICreateProps) {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [phone, setPhone] = useState<number>();
   const [whatsapp, setWhatsapp] = useState<number>();
 
-  function confirm(): void {
+  async function confirm(): Promise<void> {
     const contactData = new ContactData({
-      name,
-      email,
+      name: name.trim(),
+      email: email.trim(),
       phone,
       whatsapp,
     });
 
     if (!validContactData(contactData)) {
+      // todo: show error toast
+    }
+
+    try {
+      const newContact = await createContact(contactData);
+
+      if (!newContact) {
+        throw new HttpException('Error adding contact, please try again');
+      }
+
+      updateCards(newContact);
+      setCreateFalse();
+    } catch (error) {
       // todo: show error toast
     }
   }
@@ -39,14 +54,14 @@ function CreateContact({ cancelCreate, updateCards }: ICreateProps) {
           className="name edit"
           type="text"
           value={name}
-          onChange={e => setName(e.target.value.trim())}
+          onChange={e => setName(e.target.value)}
         ></input>
 
         <div className="title-icons">
           <>
             <AiFillCloseCircle
               className="cancel"
-              onClick={() => cancelCreate()}
+              onClick={() => setCreateFalse()}
             />
             <AiFillCheckCircle
               className="confirm"
@@ -63,7 +78,7 @@ function CreateContact({ cancelCreate, updateCards }: ICreateProps) {
             className={`contact-field edit && 'edit'}`}
             type="text"
             value={email}
-            onChange={e => setEmail(e.target.value.trim())}
+            onChange={e => setEmail(e.target.value)}
           ></input>
         </div>
 
