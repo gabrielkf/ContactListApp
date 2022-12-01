@@ -35,3 +35,13 @@ export class ContactData implements Omit<IContact, 'id'> {
   public phone?: number | undefined;
   public whatsapp?: number | undefined;
 }
+
+export function validContactData(contactData: ContactData): boolean {
+  if (
+    !contactData.name ||
+    !(contactData.phone || contactData.email || contactData.whatsapp)
+  )
+    return false;
+
+  return true;
+}

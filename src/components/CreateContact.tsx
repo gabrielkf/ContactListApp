@@ -6,7 +6,7 @@ import {
   AiOutlinePhone,
 } from 'react-icons/ai';
 import { BsWhatsapp } from 'react-icons/bs';
-import { IContact } from '../entities/Contact';
+import { ContactData, IContact, validContactData } from '../entities/Contact';
 
 interface ICreateProps {
   cancelCreate(): void;
@@ -19,7 +19,18 @@ function CreateContact({ cancelCreate, updateCards }: ICreateProps) {
   const [phone, setPhone] = useState<number>();
   const [whatsapp, setWhatsapp] = useState<number>();
 
-  function confirm() {}
+  function confirm(): void {
+    const contactData = new ContactData({
+      name,
+      email,
+      phone,
+      whatsapp,
+    });
+
+    if (!validContactData(contactData)) {
+      // todo: show error toast
+    }
+  }
 
   return (
     <div className="card">

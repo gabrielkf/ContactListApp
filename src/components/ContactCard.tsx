@@ -8,7 +8,7 @@ import {
   AiFillCloseCircle,
 } from 'react-icons/ai';
 import { BsWhatsapp } from 'react-icons/bs';
-import { IContact, Contact, ContactData } from '../entities/Contact';
+import { IContact, ContactData, validContactData } from '../entities/Contact';
 import { removeContact, updateContact } from '../services/apiService';
 
 interface ICardProps extends IContact {
@@ -71,6 +71,10 @@ function ContactCard({
         phone: cardPhone,
         whatsapp: cardWhats,
       });
+
+      if (!validContactData(contactData)) {
+        // todo: show error toast
+      }
 
       await updateContact(id, contactData);
       updateCards({ ...contactData, id });
