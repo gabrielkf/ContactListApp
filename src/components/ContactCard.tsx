@@ -73,6 +73,7 @@ function ContactCard({
       });
 
       await updateContact(id, contactData);
+      updateCards({ ...contactData, id });
     } catch {
       // todo: show error toast
     }

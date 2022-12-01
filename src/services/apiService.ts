@@ -50,8 +50,7 @@ export async function updateContact(
   contactData: ContactData
 ): Promise<void> {
   try {
-    const { data, status } = await apiClient.patch(id, contactData);
-    console.log(data);
+    const { status } = await apiClient.patch(id, contactData);
 
     if (status !== StatusCodes.OK) {
       throw new HttpException(getReasonPhrase(status));
