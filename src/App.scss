@@ -54,7 +54,6 @@ body {
   max-width: 80%;
   font-size: 1.2em;
   color: $dark;
-  text-decoration: underline;
   font-weight: bold;
   margin-bottom: 0.5em;
 }
@@ -104,10 +103,23 @@ input {
   background: transparent;
   border: none;
   outline-style: none;
+}
 
-  &:focus {
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-bottom-color: $dark;
-  }
+.edit {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: $dark;
+}
+
+// Remove arrows from input with type="number"
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
 }
