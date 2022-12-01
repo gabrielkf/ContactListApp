@@ -1,13 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import { AiOutlineMail, AiOutlinePhone } from 'react-icons/ai';
+import { AiOutlineMail, AiOutlinePhone, AiOutlineDelete } from 'react-icons/ai';
 import { BsWhatsapp } from 'react-icons/bs';
-import { IContact } from '../entities/Contact';
+import { IContact, Contact } from '../entities/Contact';
+import { removeContact } from '../services/apiService';
 
-function ContactCard({ id, name, email, phone, whatsapp }: IContact) {
+interface ICardProps extends IContact {
+  removeCard(id: string): void;
+}
+
+function ContactCard({
+  id,
+  name,
+  email,
+  phone,
+  whatsapp,
+  removeCard,
+}: ICardProps) {
+  async function remove(id: string) {
+    try {
+      await removeContact(id);
+      removeCard(id);
+    } catch (error) {
+      // todo: handle error
+    }
+  }
+
   return (
     <div className="card">
-      <h1>{name}</h1>
-      {/* todo: edit and delete buttons */}
+      <div className="title">
+        <h1>{name}</h1>
+
+        <div className="title-icons">
+          <AiOutlineDelete onClick={async () => remove(id)} />
+        </div>
+      </div>
 
       <div className="info">
         {email && (

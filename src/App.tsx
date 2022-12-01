@@ -7,11 +7,14 @@ import ContactCard from './components/ContactCard';
 function App() {
   const [contacts, setContacts] = useState<Contact[]>([]);
 
+  function removeCard(id: string) {
+    setContacts(contacts.filter(c => c.id !== id));
+  }
+
   useEffect(() => {
     async function getContacts(): Promise<void> {
       try {
         const contactList: Contact[] = await listContacts();
-        console.log(contactList);
         setContacts(contactList);
       } catch (error) {
         // todo: handle error
@@ -31,6 +34,7 @@ function App() {
             email={contact.email}
             phone={contact.phone}
             whatsapp={contact.whatsapp}
+            removeCard={removeCard}
           />
         ))}
       </div>

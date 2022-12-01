@@ -43,6 +43,21 @@ body {
   border-radius: 10px;
 }
 
+.title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.title-icons {
+  margin: 0;
+  padding: 0;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 .info {
   text-transform: none;
   letter-spacing: 0;
