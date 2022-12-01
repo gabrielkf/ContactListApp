@@ -1,7 +1,12 @@
-## Available Scripts
+## How to use
+You should run the [backend application](https://github.com/gabrielkf/ContactsList) before running this one.
+After installing dependencies with yarn or npm:
+```bash
+yarn install
+npm install
+```
 
-In the project directory, you can run:
-
+In the project directory, you can run one of the following scripts.
 ### `npm start`
 
 Runs the app in the development mode.\
@@ -17,11 +22,6 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
+This will start the application (which requires the backend to be running previously).
+It will accept new contacts (performing some basic validation) and sort them by name alphabetically.
+Errors will be displayed on toast messages (very broad messages)

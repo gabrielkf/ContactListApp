@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { Contact, IContact } from './entities/Contact';
 import { listContacts } from './services/apiService';
 import './App.scss';
 import ContactCard from './components/ContactCard';
 import CreateContact from './components/CreateContact';
+import { ErrorMessages, SuccessMessages } from './entities/DefaultMessages';
 
 function App() {
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -15,9 +16,15 @@ function App() {
     async function getContacts(): Promise<void> {
       try {
         const contactList: Contact[] = await listContacts();
+        if (contactList.length === 0) {
+          toast.error(ErrorMessages.NoContacts);
+          return;
+        }
+
         setContacts(contactList.sort((a, b) => sortByName(a, b)));
+        toast.success(SuccessMessages.Loaded);
       } catch (error) {
-        // todo: show error toast
+        toast.error(ErrorMessages.NoConnection);
       }
     }
 
@@ -58,20 +65,22 @@ function App() {
         </div>
       )}
 
-      <div className="container">
-        {contacts.map(contact => (
-          <ContactCard
-            key={contact.id}
-            id={contact.id}
-            name={contact.name}
-            email={contact.email}
-            phone={contact.phone}
-            whatsapp={contact.whatsapp}
-            removeCard={removeCard}
-            updateCards={updateCards}
-          />
-        ))}
-      </div>
+      {contacts.length > 0 && (
+        <div className="container">
+          {contacts.map(contact => (
+            <ContactCard
+              key={contact.id}
+              id={contact.id}
+              name={contact.name}
+              email={contact.email}
+              phone={contact.phone}
+              whatsapp={contact.whatsapp}
+              removeCard={removeCard}
+              updateCards={updateCards}
+            />
+          ))}
+        </div>
+      )}
       <Toaster />
     </div>
   );
