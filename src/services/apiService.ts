@@ -19,7 +19,23 @@ export async function listContacts(): Promise<Contact[]> {
 
     return data;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
+    if (axios.isAxiosError(error) || error instanceof HttpException) {
+      const { message, status } = error;
+      throw new HttpException(message, status);
+    } else {
+      throw new HttpException();
+    }
+  }
+}
+
+export async function removeContact(id: string): Promise<void> {
+  try {
+    const { status } = await apiClient.delete(id);
+    if (status !== StatusCodes.OK) {
+      throw new HttpException(getReasonPhrase(status));
+    }
+  } catch (error) {
+    if (axios.isAxiosError(error) || error instanceof HttpException) {
       const { message, status } = error;
       throw new HttpException(message, status);
     } else {
