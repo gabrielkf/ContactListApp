@@ -1,3 +1,4 @@
+import { ErrorMessages } from './../entities/DefaultMessages';
 import axios from 'axios';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 
@@ -47,6 +48,10 @@ export async function updateContact(
   try {
     const { status } = await apiClient.patch(id, contactData);
 
+    if (status === StatusCodes.BAD_REQUEST) {
+      throw new HttpException(ErrorMessages.InvalidEmail);
+    }
+
     if (status !== StatusCodes.OK) {
       throw new HttpException(getReasonPhrase(status));
     }
@@ -60,6 +65,10 @@ export async function createContact(
 ): Promise<Contact | undefined> {
   try {
     const { data, status } = await apiClient.post('', contactData);
+
+    if (status === StatusCodes.BAD_REQUEST) {
+      throw new HttpException(ErrorMessages.InvalidEmail);
+    }
 
     if (status !== StatusCodes.CREATED) {
       if (data.message && data.message[0]) {
@@ -75,7 +84,7 @@ export async function createContact(
 }
 
 function handleError(error: any) {
-  if (axios.isAxiosError(error) || error instanceof HttpException) {
+  if (error instanceof HttpException) {
     const { message, status } = error;
     throw new HttpException(message, status);
   } else {

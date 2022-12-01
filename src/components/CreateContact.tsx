@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import {
   AiFillCheckCircle,
   AiFillCloseCircle,
@@ -7,6 +8,7 @@ import {
 } from 'react-icons/ai';
 import { BsWhatsapp } from 'react-icons/bs';
 import { ContactData, IContact, validContactData } from '../entities/Contact';
+import { ErrorMessages, SuccessMessages } from '../entities/DefaultMessages';
 import { HttpException } from '../entities/HttpException';
 import { createContact } from '../services/apiService';
 
@@ -30,20 +32,28 @@ function CreateContact({ setCreateFalse, updateCards }: ICreateProps) {
     });
 
     if (!validContactData(contactData)) {
-      // todo: show error toast
+      toast.error(
+        !contactData.name ? ErrorMessages.NoName : ErrorMessages.NoInfo
+      );
+      return;
     }
 
     try {
       const newContact = await createContact(contactData);
 
       if (!newContact) {
-        throw new HttpException('Error adding contact, please try again');
+        throw new HttpException();
       }
 
       updateCards(newContact);
       setCreateFalse();
+      toast.success(SuccessMessages.Created);
     } catch (error) {
-      // todo: show error toast
+      if (error instanceof HttpException) {
+        toast.error(error.message);
+      } else {
+        toast.error(ErrorMessages.Create);
+      }
     }
   }
 

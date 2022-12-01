@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
+import { Toaster } from 'react-hot-toast';
 import { Contact, IContact } from './entities/Contact';
 import { listContacts } from './services/apiService';
 import './App.scss';
@@ -71,6 +72,7 @@ function App() {
           />
         ))}
       </div>
+      <Toaster />
     </div>
   );
 }

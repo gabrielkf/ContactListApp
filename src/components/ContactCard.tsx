@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import {
   AiOutlineMail,
   AiOutlinePhone,
@@ -9,6 +10,8 @@ import {
 } from 'react-icons/ai';
 import { BsWhatsapp } from 'react-icons/bs';
 import { IContact, ContactData, validContactData } from '../entities/Contact';
+import { ErrorMessages, SuccessMessages } from '../entities/DefaultMessages';
+import { HttpException } from '../entities/HttpException';
 import { removeContact, updateContact } from '../services/apiService';
 
 interface ICardProps extends IContact {
@@ -46,12 +49,16 @@ function ContactCard({
     if (confirmDelete) {
       setConfirmDelete(false);
     } else {
-      setCardName(name);
-      setCardEmail(email || '');
-      setCardPhone(phone);
-      setCardWhats(whatsapp);
+      resetFields();
       setEdit(false);
     }
+  }
+
+  function resetFields() {
+    setCardName(name);
+    setCardEmail(email || '');
+    setCardPhone(phone);
+    setCardWhats(whatsapp);
   }
 
   async function remove() {
@@ -59,7 +66,11 @@ function ContactCard({
       await removeContact(id);
       removeCard(id);
     } catch (error) {
-      // todo: show error toast
+      if (error instanceof HttpException) {
+        toast.error(error.message);
+      } else {
+        toast.error(ErrorMessages.Remove);
+      }
     }
   }
 
@@ -73,16 +84,25 @@ function ContactCard({
       });
 
       if (!validContactData(contactData)) {
-        // todo: show error toast
+        toast.error(
+          !contactData.name ? ErrorMessages.NoName : ErrorMessages.NoInfo
+        );
+
+        resetFields();
+        setEdit(false);
+        return;
       }
 
       await updateContact(id, contactData);
       updateCards({ ...contactData, id });
-    } catch {
-      // todo: show error toast
+      toast.success(SuccessMessages.Updated);
+    } catch (error) {
+      if (error instanceof HttpException) {
+        toast.error(error.message);
+      } else {
+        toast.error(ErrorMessages.Update);
+      }
     }
-
-    setEdit(false);
   }
 
   return (
