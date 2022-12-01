@@ -4,6 +4,8 @@ import {
   AiOutlinePhone,
   AiOutlineDelete,
   AiOutlineEdit,
+  AiFillCheckCircle,
+  AiFillCloseCircle,
 } from 'react-icons/ai';
 import { BsWhatsapp } from 'react-icons/bs';
 import { IContact, Contact } from '../entities/Contact';
@@ -26,17 +28,42 @@ function ContactCard({
   const [cardPhone, setCardPhone] = useState<number>();
   const [cardWhats, setCardWhats] = useState<number>();
   const [edit, setEdit] = useState<boolean>(false);
+  const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
 
   useEffect(() => {
     if (phone) setCardPhone(phone);
     if (whatsapp) setCardWhats(whatsapp);
   }, [phone, whatsapp]);
 
-  async function remove(id: string) {
+  async function confirmAction() {
+    if (confirmDelete) return remove();
+  }
+
+  function cancelAction() {
+    if (confirmDelete) {
+      setConfirmDelete(false);
+    } else {
+      setCardName(name);
+      setCardEmail(email || '');
+      setCardPhone(phone);
+      setCardWhats(whatsapp);
+      setEdit(false);
+    }
+  }
+
+  async function remove() {
     try {
       await removeContact(id);
       removeCard(id);
     } catch (error) {
+      // todo: show error toast
+    }
+  }
+
+  async function update() {
+    try {
+      // todo: call update method
+    } catch {
       // todo: show error toast
     }
   }
@@ -53,8 +80,23 @@ function ContactCard({
         ></input>
 
         <div className="title-icons">
-          <AiOutlineEdit onClick={() => setEdit(!edit)} />
-          <AiOutlineDelete onClick={async () => remove(id)} />
+          {!edit && !confirmDelete ? (
+            <>
+              <AiOutlineEdit onClick={() => setEdit(!edit)} />
+              <AiOutlineDelete onClick={() => setConfirmDelete(true)} />
+            </>
+          ) : (
+            <>
+              <AiFillCloseCircle
+                className="cancel"
+                onClick={() => cancelAction()}
+              />
+              <AiFillCheckCircle
+                className="confirm"
+                onClick={async () => confirmAction()}
+              />
+            </>
+          )}
         </div>
       </div>
 
